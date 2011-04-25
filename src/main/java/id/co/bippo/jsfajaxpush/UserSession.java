@@ -29,6 +29,7 @@ public class UserSession implements Serializable, PhaseListener {
 	@PostConstruct public void init() {
 		try {
 			lastArticleId = articleRepository.getLastArticle().getId();
+			log.info("Last article ID is {}", lastArticleId);
 		} catch (Exception e) {
 			log.info("No last article. Reason: {}", e.getMessage());
 		}
@@ -41,7 +42,12 @@ public class UserSession implements Serializable, PhaseListener {
 	public void beforePhase(PhaseEvent event) {
 		List<Article> articles = articleRepository.findArticlesAfter(lastArticleId);
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		for (Article article : articles) {
+		int startIdx = 0;
+		// only show last 5 articles
+		if (articles.size() > 5)
+			startIdx = articles.size() - 5;
+		for (int i = startIdx; i < articles.size(); i++) {
+			Article article = articles.get(i);
 			facesContext.addMessage(null, new FacesMessage(String.format("%s %s", article.getSubject(), article.getVerb()),
 					String.format("On %s, %s %s %s in %s.",
 							new SimpleDateFormat("EEE, MMM d, ''yy").format(article.getHappenedAt()),
