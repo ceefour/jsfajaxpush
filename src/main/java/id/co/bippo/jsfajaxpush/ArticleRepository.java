@@ -34,7 +34,7 @@ public class ArticleRepository {
 	}
 	
 	public Article getLastArticle() {
-		TypedQuery<Article> query = em.createQuery("SELECT a FROM Article a ORDER BY a.id DESC LIMIT 1", Article.class);
+		TypedQuery<Article> query = em.createQuery("SELECT a FROM Article a ORDER BY a.id DESC", Article.class).setMaxResults(1);
 		return query.getSingleResult();
 	}
 }
