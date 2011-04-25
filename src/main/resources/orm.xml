@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<orm:entity-mappings xmlns:orm="http://www.eclipse.org/eclipselink/xsds/persistence/orm" version="2.1">
+  <orm:access>FIELD</orm:access>
+  <orm:entity class="id.co.bippo.jsfajaxpush.Article" name="Article">
+    <orm:attributes>
+      <orm:id name="id">
+        <orm:generated-value generator="" strategy="AUTO"/>
+      </orm:id>
+      <orm:basic name="subject" optional="true"/>
+      <orm:basic name="verb" optional="true"/>
+      <orm:basic name="target" optional="true"/>
+      <orm:basic name="place" optional="true"/>
+      <orm:basic name="happenedAt" optional="true">
+        <orm:temporal>DATE</orm:temporal>
+      </orm:basic>
+    </orm:attributes>
+  </orm:entity>
+</orm:entity-mappings>
