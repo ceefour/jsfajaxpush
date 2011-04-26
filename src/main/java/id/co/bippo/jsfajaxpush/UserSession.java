@@ -15,6 +15,8 @@ import javax.faces.event.PhaseListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.icefaces.application.PortableRenderer;
+import org.icefaces.application.PushRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +27,15 @@ public class UserSession implements Serializable, PhaseListener {
 	private static final long serialVersionUID = 1L;
 	private long lastArticleId = -1; 
 	@Inject private ArticleRepository articleRepository;
+	@Inject private Gossiper gossiper;
 	
 	@PostConstruct public void init() {
+		// will be used by {@link Gossiper}
+		if (gossiper.getRenderer() == null) {
+			PortableRenderer renderer = PushRenderer.getPortableRenderer();
+			gossiper.setRenderer(renderer);
+		}
+		PushRenderer.addCurrentSession("news");
 		try {
 			lastArticleId = articleRepository.getLastArticle().getId();
 			log.info("Last article ID is {}", lastArticleId);
@@ -48,8 +57,9 @@ public class UserSession implements Serializable, PhaseListener {
 			startIdx = articles.size() - 5;
 		for (int i = startIdx; i < articles.size(); i++) {
 			Article article = articles.get(i);
+			// TODO: How to CSS style the summary & detail ?!? PrimeFaces got this right
 			facesContext.addMessage(null, new FacesMessage(String.format("%s %s", article.getSubject(), article.getVerb()),
-					String.format("On %s, %s %s %s in %s.",
+					String.format(" On %s, %s %s %s in %s.",
 							new SimpleDateFormat("EEE, MMM d, ''yy").format(article.getHappenedAt()),
 							article.getSubject(), article.getVerb(), article.getTarget(),
 							article.getPlace())));

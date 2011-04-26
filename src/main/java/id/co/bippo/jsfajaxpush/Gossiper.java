@@ -6,9 +6,10 @@ package id.co.bippo.jsfajaxpush;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
-import org.atmosphere.cpr.Broadcaster;
-import org.atmosphere.cpr.BroadcasterFactory;
-import org.atmosphere.cpr.DefaultBroadcaster;
+import org.icefaces.application.PortableRenderer;
+import org.icefaces.application.PushRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author ceefour
@@ -17,9 +18,24 @@ import org.atmosphere.cpr.DefaultBroadcaster;
  */
 @ApplicationScoped
 public class Gossiper {
+	private Logger log = LoggerFactory.getLogger(getClass());
+	private PortableRenderer renderer;
+	
 	public void gotNews(@Observes ArticleCreatedEvent event) {
-		Broadcaster broadcaster = BroadcasterFactory.getDefault().lookup(DefaultBroadcaster.class, "news", true);
-		// use the article toString() so it can be logged by jQuery client
-		broadcaster.broadcast(event.article.toString());
+		log.debug("Push rendering 'news', article created: {}", event.article);
+		if (renderer == null) {
+			log.warn("ICEpush PortableRenderer is not yet available. No push performed.");
+			return;
+		}
+		renderer.render("news");
+	}
+
+	public synchronized void setRenderer(PortableRenderer renderer) {
+		log.info("ICEpush PortableRenderer set to {}", renderer);
+		this.renderer = renderer;
+	}
+
+	public synchronized PortableRenderer getRenderer() {
+		return renderer;
 	}
 }
