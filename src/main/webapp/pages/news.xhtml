@@ -38,8 +38,11 @@
 					<h:outputText value="#{article.happenedAt}"><f:convertDateTime /></h:outputText>
 				</ice:column>
 			</ice:dataTable>
-			<ice:dataPaginator for="articlesTable" paginator="true">
-				<f:facet name="first" />
+			<ice:dataPaginator for="articlesTable" paginator="true" fastStep="3" paginatorMaxPages="10">
+				<f:facet name="first">&nbsp;|&lt;&nbsp;</f:facet>
+				<f:facet name="previous">&nbsp;&lt;&nbsp;</f:facet>
+				<f:facet name="next">&nbsp;&gt;&nbsp;</f:facet>
+				<f:facet name="last">&nbsp;&gt;|&nbsp;</f:facet>
 			</ice:dataPaginator>
 			<p>Total: #{articleRepository.articles.size()} records</p>
 		</h:form>
