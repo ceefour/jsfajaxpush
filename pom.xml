@@ -221,6 +221,10 @@
                     <groupId>javax.el</groupId>
                     <artifactId>el-api</artifactId>
                 </exclusion>
+                <exclusion>
+                	<artifactId>commons-logging</artifactId>
+                	<groupId>commons-logging</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
