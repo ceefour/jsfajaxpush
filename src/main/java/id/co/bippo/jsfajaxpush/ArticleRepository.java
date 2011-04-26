@@ -23,7 +23,8 @@ public class ArticleRepository {
 	}
 
 	public List<Article> getArticles() {
-		TypedQuery<Article> query = em.createQuery("SELECT a FROM Article a ORDER BY a.id DESC", Article.class);
+		TypedQuery<Article> query = em.createQuery("SELECT a FROM Article a ORDER BY a.id DESC", Article.class)
+			.setMaxResults(1000);
 		return query.getResultList();
 	}
 
