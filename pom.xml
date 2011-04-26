@@ -225,6 +225,10 @@
                 	<artifactId>commons-logging</artifactId>
                 	<groupId>commons-logging</groupId>
                 </exclusion>
+                <exclusion>
+                	<artifactId>jsf-impl</artifactId>
+                	<groupId>com.sun.faces</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
