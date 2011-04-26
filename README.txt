@@ -52,9 +52,7 @@ This project uses the following technologies:
 - JSF 2.x (provided by Java EE container)
 - CDI 1.x
 - JPA 2.x
-- PrimeFaces 2.x
-- Atmosphere for Ajax Push
-- Atmosphere jQuery plugin for client
+- ICEfaces 2.x
 - EMF Ecore
 - Texo plugin required to generate JPA entity classes
 
